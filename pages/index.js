@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function Home() {
+export default function Home({data}) {
   return (
     <div className="container">
       <Head>
@@ -12,6 +12,8 @@ export default function Home() {
         <h1 className="title">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <p>Number: {data}</p>
 
         <p className="description">
           Get started by editing <code>pages/index.js</code>
@@ -206,4 +208,27 @@ export default function Home() {
       `}</style>
     </div>
   )
+}
+
+// fonctionne sur des pages dynamic [toto]
+// export async function getStaticPaths() {
+// 	return {
+// 		paths: [],
+// 		fallback: true
+// 	}
+// }
+
+export async function getStaticProps() {
+  console.log('You call me !')
+  const data = await Math.random() 
+
+  return {
+    props: {
+      data,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 60, // In seconds
+  }
 }
